@@ -72,7 +72,7 @@ class MyHandler(BaseHTTPRequestHandler):
 def workpath(p):
     p = p.split("&")
     type = int(p[0][6:7])
-    if type == 0:
+    if type == 1:
         LName = p[1].split('=')[1]
         lot_name = LName
         rows, rowmax, available = getLotData(lot_name)
