@@ -27,7 +27,8 @@ class Lot:
             self.Available[row-1] = self.Available[row-1]-1
         
 def getLotData(lotName):
-    mycursor.execute("select * from park where lot_name = 'A'")
+    query = "select * from park where lot_name = '" + lotName + "'"
+    mycursor.execute(query)
     myresult = mycursor.fetchall()
     count = 0
     avail = []
