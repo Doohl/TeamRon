@@ -39,8 +39,12 @@ def getLotData(lotName):
         avail.append(i[2])
     return (count, rowmax, avail)
 
+''' get request for frontend '''
+URL = "https://best-ron.s3.amazonaws.com/index.html"
 
+r = requests.get(url = URL)
 
+data = r.json()
 
 
 if __name__ == "__main__":
