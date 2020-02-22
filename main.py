@@ -1,6 +1,6 @@
 import json
 import mysql.connector
-import SocketServer
+import socketserver
 from BaseHTTPServer import BaseHTTPRequestHandler
 
 ''' backend to database (sql) '''
