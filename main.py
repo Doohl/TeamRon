@@ -92,7 +92,7 @@ class parkingData(Resource):
         print(self)
         return result
 
-api.add_resource(parkingData, '/pdata/<para>')
+api.add_resource(parkingData, '/pdata/<p>')
         
 
 if __name__ == "__main__":
