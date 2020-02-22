@@ -6,7 +6,6 @@ from http.server import BaseHTTPRequestHandler
 import flask
 from flask_restful import Resource, Api
 from json import dumps
-from flask.ext.jsonpify import jsonify
 
 app = flask.Flask(__name__)
 api = Api(app)
