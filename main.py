@@ -83,6 +83,7 @@ def workpath(p):
         Rnum = p[2].split('=')[1]
         Free = p[3].split('=')[1]
         updateStatus(Lname, Rnum, Free)
+        return (0,0,0)
 
 
 class parkingData(Resource):
