@@ -43,12 +43,12 @@ def getLotData(lotName):
 
 if __name__ == "__main__":
     lot_name = "A"
-    rows, rowmax, available = getLotData()
+    rows, rowmax, available = getLotData(lot_name)
     print(rows, rowmax,available)
     #obj = Lot(lotName,10,20,[20,20,20,20,20,20,20,20,20,20])
 
 
-''' need to make backend, includes class and functions for backend to work
+'''need to make backend, includes class and functions for backend to work
 also need to connect our backend to database & backend to frontend
 but apparently it is easy cuz python lol.
 
@@ -64,6 +64,4 @@ x = {
 y = json.dumps(x)
 
 # the result is a JSON string:
-print(y)
-
-```
+print(y)'''
