@@ -1,0 +1,19 @@
+#main_display {
+    border: 1px solid black;
+    width: 100%;
+    height: 500px;
+}
+
+#lot-nav-box { 
+    position: absolute;
+    height: 40px;
+    font-size: 30px;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+    .lot-nav {
+        display: inline-block;
+        margin-right: 7px;
+        margin-left: 7px;
+        cursor: pointer;
+    }

@@ -13,8 +13,32 @@ const mockData = {
     ],
 };
 
-document.addEventListener("DOMContentLoaded", function(){
-    
-    
 
+const assembleNav = () => {
+    let div = document.createElement('div');
+    div.id = 'lot-nav-box';
+    
+    ['A', 'B', 'C', 'D', 'F', 'G', 'H', 'N'].forEach(lot => {
+        const navDiv = document.createElement('div');
+        navDiv.innerText = lot;
+
+        navDiv.classList.add('lot-nav');
+        navDiv.dataset.lot = lot;
+        navDiv.onclick = event => {
+            console.log('test');
+        };
+
+        div.appendChild(navDiv);
+    });
+
+    return div;
+};
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    console.log('test');
+    
+    const displayHolder = document.getElementById('main_display');
+    
+    displayHolder.appendChild(assembleNav());
 });
