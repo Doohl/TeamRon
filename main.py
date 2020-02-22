@@ -3,12 +3,12 @@ import mysql.connector
 import socketserver
 import random
 from http.server import BaseHTTPRequestHandler
-from flask import Flask, request
+import flask
 from flask_restful import Resource, Api
 from json import dumps
 from flask.ext.jsonpify import jsonify
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 api = Api(app)
 
 ''' backend to database (sql) '''
