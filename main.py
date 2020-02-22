@@ -3,6 +3,14 @@ import mysql.connector
 import socketserver
 import random
 from http.server import BaseHTTPRequestHandler
+from flask import Flask, request
+from flask_restful import Resource, Api
+from sqlalchemy import create_engine
+from json import dumps
+from flask.ext.jsonpify import jsonify
+
+app = Flask(__name__)
+api = Api(app)
 
 ''' backend to database (sql) '''
 mydb = mysql.connector.connect(
@@ -65,26 +73,29 @@ class MyHandler(BaseHTTPRequestHandler):
         wait()
 
         self.send_response(200)
-        workpath(self.path)
+        
+        app.run(port='8080')
 
 
+class data(Resource):
+    def workpath(p):
+        p = p.split("&")
+        type = int(p[0][-1])
+        if type == 1:
+            LName = p[1].split('=')[1]
+            lot_name = LName
+            rows, rowmax, available = getLotData(lot_name)
+            return {'rows' : rows, 'rowmax' : rowmax, 'available' : available}
 
-def workpath(p):
-    p = p.split("&")
-    type = int(p[0][-1])
-    if type == 1:
-        LName = p[1].split('=')[1]
-        lot_name = LName
-        rows, rowmax, available = getLotData(lot_name)
-        print(rows, rowmax, available)
+        
 
-    
+        else:
+            Lname = p[1].split('=')[1]
+            Rnum = p[2].split('=')[1]
+            Free = p[3].split('=')[1]
+            updateStatus(Lname, Rnum, Free)
 
-    else:
-        Lname = p[1].split('=')[1]
-        Rnum = p[2].split('=')[1]
-        Free = p[3].split('=')[1]
-        updateStatus(Lname, Rnum, Free)
+api.add_resource(, '/parkingdata')
 
 
 if __name__ == "__main__":
