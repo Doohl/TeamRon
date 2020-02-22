@@ -2,7 +2,7 @@ import json
 import mysql.connector
 import socketserver
 import random
-from BaseHTTPServer import BaseHTTPRequestHandler
+from http.server import BaseHTTPRequestHandler
 
 ''' backend to database (sql) '''
 mydb = mysql.connector.connect(
