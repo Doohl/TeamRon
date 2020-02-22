@@ -1,5 +1,6 @@
 import json
 import mysql.connector
+import requests
 
 ''' backend to database (sql) '''
 mydb = mysql.connector.connect(
@@ -46,13 +47,13 @@ if __name__ == "__main__":
     lot_name = "A"
     rows, rowmax, available = getLotData(lot_name)
     print(rows, rowmax,available)
-    #obj = Lot(lotName,10,20,[20,20,20,20,20,20,20,20,20,20])
+    obj = Lot(lotName,rows,rowmax,available)
+    
 
 
 '''need to make backend, includes class and functions for backend to work
 also need to connect our backend to database & backend to frontend
 but apparently it is easy cuz python lol.
-
 convert python to json (backend to frontend) example:
 # a Python object (dict):
 x = {
@@ -60,9 +61,7 @@ x = {
   "age": 30,
   "city": "New York"
 }
-
 # convert into JSON:
 y = json.dumps(x)
-
 # the result is a JSON string:
 print(y)'''
