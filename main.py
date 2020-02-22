@@ -95,7 +95,7 @@ class data(Resource):
             Free = p[3].split('=')[1]
             updateStatus(Lname, Rnum, Free)
 
-api.add_resource(, '/parkingdata')
+api.add_resource(data, '/parkingdata')
 
 
 if __name__ == "__main__":
