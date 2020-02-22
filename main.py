@@ -42,7 +42,7 @@ def getLotData(lotName):
 
 ''' get request for frontend '''
 def wait():
-    print "test"
+    print ("test")
 
 class MyHandler(BaseHTTPRequestHandler):
     def do_GET(self):
