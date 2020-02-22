@@ -89,6 +89,7 @@ class parkingData(Resource):
     def get(self, p):
         xx,yy,zz = workpath(p)
         result = {'rows': xx, 'rowmax': yy, 'available':zz}
+        print(self)
         return result
 
 api.add_resource(parkingData, '/pdata/<para>')
