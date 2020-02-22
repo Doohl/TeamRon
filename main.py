@@ -1,6 +1,7 @@
 import json
 import mysql.connector
 import socketserver
+import random
 from BaseHTTPServer import BaseHTTPRequestHandler
 
 ''' backend to database (sql) '''
@@ -21,15 +22,10 @@ class Lot:
         self.Available = available
         '''for x in range(0, self.__rows):
             rowSpotsTaken.append(0)'''
-        
-    def updateAvailableAdd (self, row):
-        self.Available[row-1] = self.Available[row-1]+1
-    def updateAvailableSub (self, row):
-        if(self.Available[row-1]!=0):
-            self.Available[row-1] = self.Available[row-1]-1
+
         
 def getLotData(lotName):
-    query = "select * from park where lot_name = '" + lotName + "'"
+    query = "select * from park where lot_name = '" + lotName + "';"
     mycursor.execute(query)
     myresult = mycursor.fetchall()
     count = 0
@@ -40,6 +36,26 @@ def getLotData(lotName):
         avail.append(i[2])
     return (count, rowmax, avail)
 
+def updateStatus(Lname, Rnum, Free):
+
+    
+    if(Free):
+        query = "update park set available = available - 1 where lot_name = '" + Lname + "' and row_number = " + Rnum + ';'
+        mycursor.execute(query)
+
+    else:
+        query = "update park set available = available + 1 where lot_name = '" + Lname + "' and row_number = " + Rnum + ';'
+        mycursor.execute(query)
+
+from random import randint
+
+def populateTable():
+    query = "select count(*) from park;"
+    mycursor.execute(query)
+    total = mycursor.fetchall()
+    for i in range(total):
+        query = "update park set available = " + randint(1,10)*3 "where lot_name in ('A','B','C','D','F','G','H','I','J','N');" 
+
 ''' get request for frontend '''
 def wait():
     print ("test")
@@ -49,16 +65,35 @@ class MyHandler(BaseHTTPRequestHandler):
         wait()
 
         self.send_response(200)
+        workpath(self.path)
 
-httpd = SocketServer.TCPServer(("", 8080), MyHandler)
-httpd.serve_forever()
+
+
+def workpath(p):
+    p = p.split("&")
+    type = int(p[0][6:7])
+    if type == 0:
+        LName = p[1].split('=')[1]
+        lot_name = LName
+        rows, rowmax, available = getLotData(lot_name)
+
+    
+
+    else:
+        Lname = p[1].split('=')[1]
+        Rnum = p[2].split('=')[1]
+        Free = p[3].split('=')[1]
+        updateStatus(Lname, Rnum, Free)
 
 
 if __name__ == "__main__":
-    lot_name = "A"
+    '''lot_name = "A"
     rows, rowmax, available = getLotData(lot_name)
-    print(rows, rowmax,available)
+    print(rows, rowmax,available)'''
+    httpd = socketserver.TCPServer(("", 8080), MyHandler)
+    httpd.serve_forever()
     obj = Lot(lot_Name,rows,rowmax,available)
+    populateTable()
     
 
 
