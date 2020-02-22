@@ -10,6 +10,11 @@ from json import dumps
 #from flask.ext.jsonpify import jsonify
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+@app.route("/api/v1/users")
+def list_users():
+  return "user example"
 api = Api(app)
 
 ''' backend to database (sql) '''
@@ -86,11 +91,11 @@ def workpath(p):
         return (0,0,0)
 
 
+
 class parkingData(Resource):
     def get(self, p):
         xx,yy,zz = workpath(p)
         result = {'rows': xx, 'rowmax': yy, 'available':zz}
-        print(self)
         return result
 
 api.add_resource(parkingData, '/pdata/<p>')
@@ -100,8 +105,8 @@ if __name__ == "__main__":
     '''lot_name = "A"
     rows, rowmax, available = getLotData(lot_name)
     print(rows, rowmax,available)'''
-    populateTable()
-    app.run(host='0.0.0.0', port='8080')
+  ##  populateTable()
+    app.run(host='0.0.0.0',port='8080')
     obj = Lot(lot_Name,rows,rowmax,available)
     
     
