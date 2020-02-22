@@ -99,7 +99,7 @@ if __name__ == "__main__":
     '''lot_name = "A"
     rows, rowmax, available = getLotData(lot_name)
     print(rows, rowmax,available)'''
-    app.run(port='8080')
+    app.run(host='0.0.0.0', port='8080')
     obj = Lot(lot_Name,rows,rowmax,available)
     populateTable()
     
