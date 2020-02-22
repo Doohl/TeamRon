@@ -85,7 +85,7 @@ def workpath(p):
         updateStatus(Lname, Rnum, Free)
 
 
-class parkindData(Resource):
+class parkingData(Resource):
     def get(self, p):
         xx,yy,zz = workpath(p)
         result = {'rows': xx, 'rowmax': yy, 'available':zz}
