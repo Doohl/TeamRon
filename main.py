@@ -11,11 +11,9 @@ from json import dumps
 from flask_cors import CORS
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app)
 
-@app.route("/api/v1/users")
-def list_users():
-  return "user example"
+@app.route("/")
 api = Api(app)
 
 ''' backend to database (sql) '''
@@ -106,7 +104,7 @@ if __name__ == "__main__":
     '''lot_name = "A"
     rows, rowmax, available = getLotData(lot_name)
     print(rows, rowmax,available)'''
-  ##  populateTable()
+    ##populateTable()
     app.run(host='0.0.0.0',port='8080')
     obj = Lot(lot_Name,rows,rowmax,available)
     
