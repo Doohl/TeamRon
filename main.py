@@ -51,7 +51,7 @@ if __name__ == "__main__":
     lot_name = "A"
     rows, rowmax, available = getLotData(lot_name)
     print(rows, rowmax,available)
-    obj = Lot(lotName,rows,rowmax,available)
+    obj = Lot(lot_name,rows,rowmax,available)
     
 
 
