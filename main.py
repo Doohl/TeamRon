@@ -54,7 +54,7 @@ def populateTable():
     mycursor.execute(query)
     total = mycursor.fetchall()
     for i in range(total):
-        query = "update park set available = " + randint(1,10)*3 + "where lot_name in ('A','B','C','D','F','G','H','I','J','N');" 
+        query = "update park set available = " + randint(1,5)*2 + "where lot_name in ('A','B','C','D','F','G','H','I','J','N');" 
 
 ''' get request for frontend '''
 def wait():
