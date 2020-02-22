@@ -1,5 +1,5 @@
 const data = {
-    // 'A': [
+    'A': [
     //     [1, 1, 20, 20],
     //     [1, 2, 5, 20],
     //     [1, 3, 20, 20],
@@ -9,8 +9,18 @@ const data = {
     //     [2, 2, 20, 20],
     //     [2, 3, 1, 20],
     //     [2, 4, 12, 20],
-    //     [2, 5, 20, 20]
-    // ],
+    //     [2, 5, 20, 20],
+    //     [3, 1, 20, 20],
+    //     [3, 2, 5, 20],
+    //     [3, 3, 20, 20],
+    //     [3, 4, 16, 20],
+    //     [3, 5, 20, 20],
+    //     [4, 1, 5, 20],
+    //     [4, 2, 20, 20],
+    //     [4, 3, 1, 20],
+    //     [4, 4, 12, 20],
+    //     [4, 5, 20, 20]
+    ]
 };
 
 var currentLot = 'A';
@@ -63,6 +73,11 @@ async function getSlotData(parkingLot) {
 async function redrawLot () {
 
     let retrieved = await getSlotData();
+    let max = retrieved.rowmax;
+    data[currentLot] = [];
+    for(let i = 0; i < retrieved.available; ++i) {
+        data[currentLot].push([1, 1, retrieved.available[i], max]);
+    }
 
     let oldRows = document.getElementsByClassName('parking-row');
     while(oldRows.length) {
@@ -108,5 +123,7 @@ document.addEventListener("DOMContentLoaded", function(){
     
     displayHolder.appendChild(assembleNav());
 
-    await redrawLot();
+    (async () => { 
+        await redrawLot();
+    })();
 });
