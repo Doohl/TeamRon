@@ -3,11 +3,13 @@ import mysql.connector
 import socketserver
 import random
 from http.server import BaseHTTPRequestHandler
-import flask
+from flask import Flask, request
 from flask_restful import Resource, Api
+#from sqlalchemy import create_engine
 from json import dumps
+#from flask.ext.jsonpify import jsonify
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 api = Api(app)
 
 ''' backend to database (sql) '''
@@ -63,45 +65,40 @@ def populateTable():
         query = "update park set available = " + randint(1,5)*2 + "where lot_name in ('A','B','C','D','F','G','H','I','J','N');" 
 
 ''' get request for frontend '''
-def wait():
-    print ("test")
 
-class MyHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        wait()
 
-        self.send_response(200)
+def workpath(p):
+    p = p.split("&")
+    type = int(p[0][-1])
+    if type == 1:
+        LName = p[1].split('=')[1]
+        lot_name = LName
+        rows, rowmax, available = getLotData(lot_name)
+        return(rows, rowmax, available)
+
+    
+
+    else:
+        Lname = p[1].split('=')[1]
+        Rnum = p[2].split('=')[1]
+        Free = p[3].split('=')[1]
+        updateStatus(Lname, Rnum, Free)
+
+
+class parkindData(Resource):
+    def get(self, p):
+        xx,yy,zz = workpath(p)
+        result = {'rows': xx, 'rowmax': yy, 'available':zz}
+        return result
+
+api.add_resource(parkingData, '/pdata/<para>')
         
-        app.run(port='8080')
-
-
-class data(Resource):
-    def workpath(p):
-        p = p.split("&")
-        type = int(p[0][-1])
-        if type == 1:
-            LName = p[1].split('=')[1]
-            lot_name = LName
-            rows, rowmax, available = getLotData(lot_name)
-            return {'rows' : rows, 'rowmax' : rowmax, 'available' : available}
-
-        
-
-        else:
-            Lname = p[1].split('=')[1]
-            Rnum = p[2].split('=')[1]
-            Free = p[3].split('=')[1]
-            updateStatus(Lname, Rnum, Free)
-
-api.add_resource(data, '/parkingdata')
-
 
 if __name__ == "__main__":
     '''lot_name = "A"
     rows, rowmax, available = getLotData(lot_name)
     print(rows, rowmax,available)'''
-    httpd = socketserver.TCPServer(("", 8080), MyHandler)
-    httpd.serve_forever()
+    app.run(port='8080')
     obj = Lot(lot_Name,rows,rowmax,available)
     populateTable()
     
