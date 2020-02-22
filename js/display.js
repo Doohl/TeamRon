@@ -66,7 +66,12 @@ const assembleNav = () => {
 };
 
 async function getSlotData(parkingLot) {
-    let response = await fetch(`http://54.197.36.101:8080/type=1&lot=${currentLot}`);
+    console.log(`http://54.197.36.101:8080/pdata/type=1&lot=${currentLot}`);
+    let response = await fetch(`http://54.197.36.101:8080/pdata/type=1&lot=${currentLot}`, {
+        method: 'GET',
+        mode: 'no-cors'
+    });
+    console.log(response);
     return response.json();
 }
 
