@@ -1,30 +1,94 @@
 const data = {
     'A': [
-    //     [1, 1, 20, 20],
-    //     [1, 2, 5, 20],
-    //     [1, 3, 20, 20],
-    //     [1, 4, 16, 20],
-    //     [1, 5, 20, 20],
-    //     [2, 1, 5, 20],
-    //     [2, 2, 20, 20],
-    //     [2, 3, 1, 20],
-    //     [2, 4, 12, 20],
-    //     [2, 5, 20, 20],
-    //     [3, 1, 20, 20],
-    //     [3, 2, 5, 20],
-    //     [3, 3, 20, 20],
-    //     [3, 4, 16, 20],
-    //     [3, 5, 20, 20],
-    //     [4, 1, 5, 20],
-    //     [4, 2, 20, 20],
-    //     [4, 3, 1, 20],
-    //     [4, 4, 12, 20],
-    //     [4, 5, 20, 20]
-    ]
+        [1, 1, 20, 20],
+        [1, 2, 5, 20],
+        [1, 3, 20, 20],
+        [1, 4, 16, 20],
+        [1, 5, 20, 20],
+        [2, 1, 5, 20],
+        [2, 2, 20, 20],
+        [2, 3, 1, 20],
+        [2, 4, 12, 20],
+        [2, 5, 20, 20],
+        [3, 1, 20, 20],
+        [3, 2, 5, 20],
+        [3, 3, 20, 20],
+        [3, 4, 16, 20],
+        [3, 5, 20, 20],
+        [4, 1, 5, 20],
+        [4, 2, 20, 20],
+        [4, 3, 1, 20],
+        [4, 4, 12, 20],
+        [4, 5, 20, 20]
+    ],
+    'B': [
+        [1, 1, 20, 20],
+        [1, 2, 5, 20],
+        [1, 3, 2, 20],
+        [1, 4, 16, 20],
+        [1, 5, 19, 20],
+        [2, 1, 5, 20],
+        [2, 2, 3, 20],
+        [2, 3, 1, 20],
+        [2, 4, 0, 20],
+        [2, 5, 0, 20],
+        [3, 1, 0, 20],
+        [3, 2, 5, 20],
+        [3, 3, 20, 20],
+        [3, 4, 14, 20],
+        [3, 5, 20, 20]
+    ],
+    'C': [
+        [1, 1, 20, 20],
+        [1, 2, 5, 20],
+        [1, 3, 4, 20],
+        [1, 4, 16, 20],
+        [1, 5, 20, 20],
+        [2, 1, 18, 20],
+        [2, 2, 20, 20],
+        [2, 3, 1, 20],
+        [2, 4, 0, 20],
+        [2, 5, 0, 20],
+        [3, 1, 4, 20],
+        [3, 2, 15, 20],
+        [3, 3, 19, 20],
+        [3, 4, 2, 20],
+        [3, 5, 4, 20],
+        [4, 1, 0, 20],
+        [4, 2, 0, 20],
+        [4, 3, 0, 20],
+        [4, 4, 0, 20],
+        [4, 5, 0, 20],
+        [5, 1, 0, 20],
+        [5, 2, 0, 20],
+        [5, 3, 1, 20],
+        [5, 4, 2, 20],
+        [5, 5, 2, 20],
+        [5, 5, 17, 20],
+        [6, 5, 11, 20]
+    ],
+    'D': [
+        [1, 1, 0, 20],
+        [1, 2, 20, 20],
+        [1, 3, 20, 20],
+        [1, 4, 11, 20],
+        [1, 5, 0, 20],
+        [2, 1, 3, 20],
+        [2, 2, 1, 20],
+        [2, 3, 7, 20],
+        [2, 4, 3, 20],
+        [2, 5, 3, 20],
+        [3, 1, 7, 20],
+        [3, 2, 20, 20],
+        [3, 3, 13, 20],
+        [3, 4, 2, 20],
+        [3, 5, 0, 20]
+    ],
 };
 
 var currentLot = 'A';
 var displayHolder;
+var currentReserve;
 
 const changeLot = newLot => {
     currentLot = newLot;
@@ -77,12 +141,12 @@ async function getSlotData(parkingLot) {
 
 async function redrawLot () {
 
-    let retrieved = await getSlotData();
-    let max = retrieved.rowmax;
-    data[currentLot] = [];
-    for(let i = 0; i < retrieved.available; ++i) {
-        data[currentLot].push([1, 1, retrieved.available[i], max]);
-    }
+    //let retrieved = await getSlotData();
+    // let max = retrieved.rowmax;
+    // data[currentLot] = [];
+    // for(let i = 0; i < retrieved.available; ++i) {
+    //     data[currentLot].push([1, 1, retrieved.available[i], max]);
+    // }
 
     let oldRows = document.getElementsByClassName('parking-row');
     while(oldRows.length) {
@@ -91,7 +155,7 @@ async function redrawLot () {
 
     let rows = data[currentLot];
     if(!rows) return;
-    rows.forEach(row => {
+    for(var row of rows) {
         
         let rowEle = document.createElement('div');
         rowEle.classList.add('parking-row');
@@ -115,7 +179,21 @@ async function redrawLot () {
         rowEle.appendChild(freeEle);
 
         document.getElementById('parking-row-container').appendChild(rowEle);
-    });
+
+        let rowCopy = row;
+        rowEle.onclick = e => {
+            if(rowCopy[2] <= 0) 
+                return;
+            if(currentReserve)
+                currentReserve[2]++;
+            // if(currentReserve == rowCopy) return;
+            rowCopy[2]--;
+            currentReserve = rowCopy;
+            (async () => { 
+                redrawLot();
+            })();
+        };
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -129,6 +207,6 @@ document.addEventListener("DOMContentLoaded", function(){
     displayHolder.appendChild(assembleNav());
 
     (async () => { 
-        await redrawLot();
+        redrawLot();
     })();
 });
