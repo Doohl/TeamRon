@@ -1,6 +1,7 @@
 import json
 import mysql.connector
-import requests
+import SocketServer
+from BaseHTTPServer import BaseHTTPRequestHandler
 
 ''' backend to database (sql) '''
 mydb = mysql.connector.connect(
@@ -40,18 +41,24 @@ def getLotData(lotName):
     return (count, rowmax, avail)
 
 ''' get request for frontend '''
-URL = "https://best-ron.s3.amazonaws.com/index.html"
+def wait():
+    print "test"
 
-r = requests.get(url = URL)
+class MyHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        wait()
 
-data = r.json()
+        self.send_response(200)
+
+httpd = SocketServer.TCPServer(("", 8080), MyHandler)
+httpd.serve_forever()
 
 
 if __name__ == "__main__":
     lot_name = "A"
     rows, rowmax, available = getLotData(lot_name)
     print(rows, rowmax,available)
-    obj = Lot(lot_name,rows,rowmax,available)
+    obj = Lot(lot_Name,rows,rowmax,available)
     
 
 
